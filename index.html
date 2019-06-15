@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <script type="text/javascript">
-      window.locatation.search !== '?pw=brussels' &&
+      window.location.search !== '?pw=brussels' &&
       (window.location = 'https://google.com/');
     </script>
     <title></title>
@@ -138,9 +138,6 @@
         </section>
       </article>
       <article id="property-tab">
-        <section class="icon">
-          <ul id="property-list"></ul>
-        </section>
         <section class="content">
           <p>
             Choose one of your <strong>Google Analytics</strong> properties
@@ -150,8 +147,14 @@
             </i>
           </p>
         </section>
+        <section class="icon">
+          <ul id="property-list"></ul>
+        </section>
       </article>
       <article id="view-tab">
+        <section class="icon">
+          <ul id="view-list"></ul>
+        </section>
         <section class="content">
           <p>
             Choose one of your <strong>Google Analytics</strong> views
@@ -160,9 +163,6 @@
               (It has to be <a href="https://support.google.com/analytics/answer/1037249">E-Commerce</a> enabled and use <a href="https://www.criteo.com/">Criteo</a> retargeting ads.)
             </i>
           </p>
-        </section>
-        <section class="icon">
-          <ul id="view-list"></ul>
         </section>
       </article>
       <article id="first-of-path-tab">
