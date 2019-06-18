@@ -2,103 +2,18 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
       window.location.search !== '?pw=brussels' &&
       (window.location = 'https://google.com/');
-    </script>
-    <title></title>
-    <style media="screen">
-      html {
-        background: url('./space.jpg');
-        background-attachment: fixed;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
-      body {
-        font-family: montserrat, arial, verdana;
-        color: white;
-      }
-      article {
-        width: 100%;
-        height: 100vh;
-        border-color: white;
-        border-style: dashed;
-        border-width: 1px 1px 0px 1px;
-      }
-      article > section {
-        height: 100%;
-        float: left;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-      }
-      section.content {
-        width: 55%;
-      }
-      section.icon {
-        width: 45%;
-      }
-      section > p {
-        margin: 0;
-        padding: 20px;
-        font-size: 2rem;
-      }
-      section > p strong,
-      section > p a {
-        color: #008FFF;
-      }
-      section > h1 {
-        font-size: 3rem;
-      }
-      section > p i {
-        font-size: 1.5rem;
-      }
-      section.icon > ul > li {
-        list-style: none;
-        margin: 5px;
-      }
-      section.icon button {
-        background-color: rgba(255, 255, 255, 0.4);
-        border-radius: 25px;
-        border-width: 2px;
-        border-color: white;
-        color: white;
-        opacity: 0.7;
-        outline: none;
-        font-size: 2rem;
-      }
-      #sign-in-button > img {
-        height: 192px;
-      }
-      #first-of-path-report,
-      #middle-of-path-report,
-      #last-of-path-report {
-        font-size: 1.5rem;
-      }
-    </style>
-    <style type="text/css">
-      svg {
-        height: 100%;
-        width: 100%;
-      }
-
-      svg .bar {
-        fill: #008FFF;
-      }
-
-      svg .bar:hover {
-        fill: #9bc6ea;
-      }
-    </style>
+    </script> -->
+    <title>Criteo Remarketing Optimizer</title>
+    <link rel="stylesheet" href="./style.css">
   </head>
   <body>
     <main>
-      <article>
-        <section>
+      <article class="fullHeight">
+        <section class="section--colm">
           <h1>Criteo Remarketing Optimizer</h1>
-          <br />
           <p>
             The <strong>Criteo Remarketing Optimizer</strong> is a <strong>FREE</strong> web application that analyzes your <a href="https://www.criteo.com/">Criteo</a> remarketing efficiency.
             <br />
@@ -107,38 +22,31 @@
           </p>
         </section>
       </article>
-      <article>
-        <section class="content">
-          <p>
-            Sign-in to your <strong>Google Analytics</strong> user
-            <br />
-            <i>
-              (It has to be <a href="https://support.google.com/analytics/answer/1037249">E-Commerce</a> enabled and use <a href="https://www.criteo.com/">Criteo</a> retargeting ads.)
-            </i>
+      <article class="fullHeight">
+        <section class="section--colm">
+          <img src="./ga-logo.png" width="240">
+          <p>Sign-in to your <strong>Google Analytics</strong> user<br />
+            <i>(It has to be <a href="https://support.google.com/analytics/answer/1037249">E-Commerce</a> enabled and use <a href="https://www.criteo.com/">Criteo</a> retargeting ads.)</i>
           </p>
+          <button id="sign-in-button">Sign-in</button>
         </section>
-        <section class="icon">
-          <button id="sign-in-button">
-            <img src="./ga-logo.png">
-          </button>
-        <section>
       </article>
       <article id="account-tab">
-        <section class="icon">
-          <ul id="account-list"></ul>
-        </section>
-        <section class="content">
+        <section class="section--colm">
+          <img src="./ga-list.jpg" alt="" width="400" class="ga--list">
           <p>
-            Choose one of your <strong>Google Analytics</strong> accounts
-            <br />
-            <i>
-              (It has to be <a href="https://support.google.com/analytics/answer/1037249">E-Commerce</a> enabled and use <a href="https://www.criteo.com/">Criteo</a> retargeting ads.)
-            </i>
-          </p>
+              Choose one of your <strong>Google Analytics</strong> accounts
+              <br />
+              <i>
+                (It has to be <a href="https://support.google.com/analytics/answer/1037249">E-Commerce</a> enabled and use <a href="https://www.criteo.com/">Criteo</a> retargeting ads.)
+              </i>
+            </p>
+            <ul id="account-list" class="list"></ul>
         </section>
       </article>
       <article id="property-tab">
-        <section class="content">
+        <section class="section--colm">
+            <img src="./ga-property.jpg" alt="" width="400" class="ga--list">
           <p>
             Choose one of your <strong>Google Analytics</strong> properties
             <br />
@@ -146,16 +54,12 @@
               (It has to be <a href="https://support.google.com/analytics/answer/1037249">E-Commerce</a> enabled and use <a href="https://www.criteo.com/">Criteo</a> retargeting ads.)
             </i>
           </p>
-        </section>
-        <section class="icon">
-          <ul id="property-list"></ul>
+          <ul id="property-list" class="list"></ul>
         </section>
       </article>
       <article id="view-tab">
-        <section class="icon">
-          <ul id="view-list"></ul>
-        </section>
-        <section class="content">
+        <section class="section--colm">
+          <img src="./ga-view.jpg" alt="" width="400" class="ga--list">
           <p>
             Choose one of your <strong>Google Analytics</strong> views
             <br />
@@ -163,6 +67,7 @@
               (It has to be <a href="https://support.google.com/analytics/answer/1037249">E-Commerce</a> enabled and use <a href="https://www.criteo.com/">Criteo</a> retargeting ads.)
             </i>
           </p>
+          <ul id="view-list" class="list"></ul>
         </section>
       </article>
       <article id="first-of-path-tab">

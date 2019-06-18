@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+  body {
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    background: #121212;
+    margin: 0;
+    padding: 0;
+  }
+  body:after {
+    position: fixed;
+    top: -150px;
+    right: -50px;
+    bottom: 0;
+    content: '';
+    width: 400px;
+    height: 600px;
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    z-index: -1;
+    -webkit-transform: rotate(-30deg);
+    -moz-transform: rotate(-30deg);
+    -ms-transform: rotate(-30deg);
+    -o-transform: rotate(-30deg);
+    transform: rotate(-30deg); }
+  body:before {
+    position: fixed;
+    top: 500px;
+    left: -100px;
+    bottom: 0;
+    content: '';
+    width: 400px;
+    height: 400px;
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    z-index: -1;
+    -webkit-transform: rotate(20deg);
+    -moz-transform: rotate(20deg);
+    -ms-transform: rotate(20deg);
+    -o-transform: rotate(20deg);
+    transform: rotate(20deg); }
+  article {
+    width: 100%;
+    min-height: 100vh;
+  }
+  article.fullHeight {
+    height: 100vh;
+  }
+  article > section {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .section--colm {
+      flex-direction: column;
+      width: 100%;
+      max-width: 980px;
+      margin: auto;
+      text-align: center;
+      padding: 0 20px;
+  }
+  section p {
+      margin-bottom: 32px;
+  }
+  button {
+    border-radius: 4px;
+    border: 0;
+    background: #4F52D4;
+    box-shadow: 0 2px 4px 0 rgba(83,75,220,0.30);
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 18px;
+    height: 48px;
+    line-height: 1;
+    padding: 0 32px;
+    text-transform: uppercase;
+  }
+  section.content {
+    width: 55%;
+  }
+  section.icon {
+    width: 45%;
+  }
+  section > p {
+    margin: 0;
+    padding: 20px;
+    font-size: 2rem;
+  }
+  section > p strong,
+  section > p a {
+    color: #4F52D4;
+  }
+  section > h1 {
+    font-size: 3rem;
+  }
+  section > p i {
+    font-size: 1.5rem;
+  }
+  section.icon > ul > li {
+    list-style: none;
+    margin: 5px;
+  }
+  section.icon button {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 25px;
+    border-width: 2px;
+    border-color: white;
+    color: white;
+    opacity: 0.7;
+    outline: none;
+    font-size: 2rem;
+  }
+  #sign-in-button > img {
+    height: 192px;
+  }
+  #first-of-path-report,
+  #middle-of-path-report,
+  #last-of-path-report {
+    font-size: 1.5rem;
+  }
+
+  svg {
+    height: 100%;
+    width: 100%;
+  }
+
+  svg .bar {
+    fill: #4F52D4;
+  }
+
+  svg .bar:hover {
+    fill: #9bc6ea;
+  }
+
+  .ga--list {
+      width: 100%;
+      max-width: 400px;
+      display: inline-block;
+      margin-bottom: 32px;
+      border-radius: 4px;
+      box-shadow: 0 0px 40px 0 rgba(83,75,220,0.50);
+  }
+
+  .list {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      justify-content: space-between;
+      margin: 0;
+      padding: 0;
+      margin-top: 32px;
+      margin-bottom: 100px;
+  }
+  
+  .list li {
+        flex: 0 0 30%;
+        margin-bottom: 16px;
+  }
+
+  .list li button {
+      width: 100%;
+      font-size: 14px;
+  }
