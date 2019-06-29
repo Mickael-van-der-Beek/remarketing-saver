@@ -1,6 +1,6 @@
 'use strict';
 
-function drawFirsOfPathChart (chartContainer, { query, rows }) {
+function drawChart (chartContainer, { query, rows }) {
   Highcharts.chart(chartContainer, {
     credits: {
       enabled: false
