@@ -5,6 +5,19 @@ async function initClient () {
     return alert('Adblocker!');
   }
 
+  const query = window.location.search
+    .slice(1)
+    .split('&')
+    .map(param => param.split('='))
+    .reduce((query, [ key, value ]) => (
+      query.set(key, value),
+      query
+    ), new Map())
+  const adSource = query.get('adSource') || 'criteo';
+  const directChannels = query.get('directChannels') || 'direct';
+
+  clearTabs(1);
+
   await gapi.client.init({
     'clientId': '117859912987-fljbv2m0oqo1qje2prd2mtd6hiipb8s3.apps.googleusercontent.com',
     'apiKey': 'AIzaSyCwJ5EtOqMF8mNx49iBS7Axd6ycVe9PbF0',
@@ -19,18 +32,6 @@ async function initClient () {
     ].join(' ')
   });
 
-  const query = window.location.search
-    .slice(1)
-    .split('&')
-    .map(param => param.split('='))
-    .reduce((query, [ key, value ]) => (
-      query.set(key, value),
-      query
-    ), new Map())
-  const adSource = query.get('adSource') || 'criteo';
-  const directChannels = (query.get('directChannels') || 'direct'); // .split(',');
-  clearTabs(1);
-
   function clearTabs (tabIndex) {
     if (tabIndex < 2) {
       document.getElementById('account-tab').style.display = 'none';
@@ -39,27 +40,30 @@ async function initClient () {
         accountsContainer.removeChild(accountsContainer.firstChild);
       }
     }
-    if (tabIndex < 3) {
+
+    if (tabIndex >= 3) {
       document.getElementById('account-tab').style.display = 'block';
+    } else {
       document.getElementById('property-tab').style.display = 'none';
       const propertiesContainer = document.getElementById('property-list');
       while (propertiesContainer.firstChild) {
         propertiesContainer.removeChild(propertiesContainer.firstChild);
       }
     }
-    if (tabIndex < 4) {
-      document.getElementById('account-tab').style.display = 'block';
+
+    if (tabIndex >= 4) {
       document.getElementById('property-tab').style.display = 'block';
+    } else {
       document.getElementById('view-tab').style.display = 'none';
       const viewsContainer = document.getElementById('view-list');
       while (viewsContainer.firstChild) {
         viewsContainer.removeChild(viewsContainer.firstChild);
       }
     }
-    if (tabIndex < 5) {
-      document.getElementById('account-tab').style.display = 'block';
-      document.getElementById('property-tab').style.display = 'block';
+
+    if (tabIndex >= 5) {
       document.getElementById('view-tab').style.display = 'block';
+    } else {
       document.getElementById('first-of-path-tab').style.display = 'none';
       document.getElementById('middle-of-path-tab').style.display = 'none';
       document.getElementById('last-of-path-tab').style.display = 'none';
