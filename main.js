@@ -47,30 +47,18 @@ function clearTabs (tabIndex) {
     document.getElementById('account-tab').style.display = 'block';
   } else {
     document.getElementById('account-tab').style.display = 'none';
-    const accountsContainer = document.getElementById('account-list');
-    while (accountsContainer.firstChild) {
-      accountsContainer.removeChild(accountsContainer.firstChild);
-    }
   }
 
   if (tabIndex >= 3) {
     document.getElementById('property-tab').style.display = 'block';
   } else {
     document.getElementById('property-tab').style.display = 'none';
-    const propertiesContainer = document.getElementById('property-list');
-    while (propertiesContainer.firstChild) {
-      propertiesContainer.removeChild(propertiesContainer.firstChild);
-    }
   }
 
   if (tabIndex >= 4) {
     document.getElementById('view-tab').style.display = 'block';
   } else {
     document.getElementById('view-tab').style.display = 'none';
-    const viewsContainer = document.getElementById('view-list');
-    while (viewsContainer.firstChild) {
-      viewsContainer.removeChild(viewsContainer.firstChild);
-    }
   }
 
   if (tabIndex >= 5) {
@@ -84,6 +72,27 @@ function clearTabs (tabIndex) {
     document.getElementById('last-of-path-tab').style.display = 'none';
     document.getElementById('footer-tab').style.display = 'none';
   }
+
+  if (tabIndex < 2) {
+    const accountsContainer = document.getElementById('account-list');
+    while (accountsContainer.firstChild) {
+      accountsContainer.removeChild(accountsContainer.firstChild);
+    }
+  }
+
+  if (tabIndex < 3) {
+    const propertiesContainer = document.getElementById('property-list');
+    while (propertiesContainer.firstChild) {
+      propertiesContainer.removeChild(propertiesContainer.firstChild);
+    }
+  }
+
+  if (tabIndex < 4) {
+    const viewsContainer = document.getElementById('view-list');
+    while (viewsContainer.firstChild) {
+      viewsContainer.removeChild(viewsContainer.firstChild);
+    }
+  }
 }
 
 function signIn (event) {
@@ -91,10 +100,10 @@ function signIn (event) {
   gapi.auth2
     .getAuthInstance()
     .signIn()
-    .then(function (user) {
+    .then(user => {
       gapi.client.analytics.management.accounts
         .list()
-        .then(function (accounts) {
+        .then(accounts => {
           hideLoader();
           console.log('accounts=', accounts);
 
@@ -112,12 +121,12 @@ function signIn (event) {
 
           document.getElementById('account-tab').scrollIntoView({ behavior: 'smooth' });
         })
-        .catch(function (err) {
+        .catch(err => {
           hideLoader();
           showModal(err.details);
         })
     })
-    .catch(function (err) {
+    .catch(err => {
       hideLoader();
       showModal(err.details);
     });
@@ -131,7 +140,7 @@ function selectAccount (event) {
   showLoader();
   gapi.client.analytics.management.webproperties
     .list({ accountId })
-    .then(function (properties) {
+    .then(properties => {
       hideLoader();
       console.log('properties=', properties);
 
@@ -150,7 +159,7 @@ function selectAccount (event) {
 
       document.getElementById('property-tab').scrollIntoView({ behavior: 'smooth' });
     })
-    .catch(function (err) {
+    .catch(err => {
       hideLoader();
       showModal(err.details);
     });
@@ -165,7 +174,7 @@ function selectProperty (event) {
   showLoader();
   gapi.client.analytics.management.profiles
     .list({ accountId, webPropertyId: propertyId })
-    .then(function (views) {
+    .then(views => {
       hideLoader();
       console.log('views=', views);
 
@@ -188,7 +197,7 @@ function selectProperty (event) {
 
       document.getElementById('view-tab').scrollIntoView({ behavior: 'smooth' });
     })
-    .catch(function (err) {
+    .catch(err => {
       hideLoader();
       showModal(err.details);
     });
@@ -201,7 +210,7 @@ function selectView (event) {
   const currency = event.target.getAttribute('data-view-currency') || 'USD';
 
   showLoader();
-  runReport(viewId, currency, function (err, report) {
+  runReport(viewId, currency, (err, report) => {
     hideLoader();
     console.log('formated-report=', report);
 
@@ -260,7 +269,7 @@ function runReport (viewId, currency, callback) {
       samplingLevel: 'HIGHER_PRECISION',
       'include-empty-rows': false
     })
-    .then(function (report) {
+    .then(report => {
       console.log('REPORTS=', report);
 
       const reportRows = (report.result.rows || []).map(row => {
@@ -489,10 +498,9 @@ function drawChart (chartContainer, title, { query, rows }) {
         threshold: null
       }
     },
-
     series: [{
       type: 'area',
-      name: 'USD to EUR',
+      name: `value in ${query.currency}`,
       data: rows
     }]
   });
@@ -500,9 +508,12 @@ function drawChart (chartContainer, title, { query, rows }) {
 
 function initClient () {
   if (window.hasOwnProperty('gapi') === false) {
-    return showModal('Adblocker!');
+    return showModal('You are using an ad-blocker which is interfering with the Google Analytics API used by this application. Please disable it and try again.');
   }
 
+  const adBlockerTimer = setTimeout(() => {
+    showModal('You are using an ad-blocker which is interfering with the Google Analytics API used by this application. Please disable it and try again.');
+  }, 1000 * 30);
   showLoader();
   gapi.client.init({
     'clientId': '117859912987-fljbv2m0oqo1qje2prd2mtd6hiipb8s3.apps.googleusercontent.com',
@@ -517,14 +528,16 @@ function initClient () {
       'https://www.googleapis.com/auth/analytics.readonly'
     ].join(' ')
   })
-    .then(function () {
+    .then(() => {
+      clearTimeout(adBlockerTimer);
       hideLoader();
       document.getElementById('sign-in-button').onclick = signIn;
       document.getElementById('account-list').onclick = selectAccount;
       document.getElementById('property-list').onclick = selectProperty;
       document.getElementById('view-list').onclick = selectView;
     })
-    .catch(function (err) {
+    .catch((err) => {
+      clearTimeout(adBlockerTimer);
       hideLoader();
       showModal(err.details);
     });
