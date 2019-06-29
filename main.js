@@ -53,8 +53,6 @@ function clearTabs (tabIndex) {
 }
 
 async function signIn (event) {
-  if (event.target.tagName !== 'LI') return null;
-
   showLoader();
   const user = await gapi.auth2.getAuthInstance().signIn();
   const accounts = await gapi.client.analytics.management.accounts.list();
