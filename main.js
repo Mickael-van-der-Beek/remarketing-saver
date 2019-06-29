@@ -33,7 +33,9 @@ async function initClient () {
   });
 
   function clearTabs (tabIndex) {
-    if (tabIndex < 2) {
+    if (tabIndex >= 2) {
+      document.getElementById('account-tab').style.display = 'block';
+    } else {
       document.getElementById('account-tab').style.display = 'none';
       const accountsContainer = document.getElementById('account-list');
       while (accountsContainer.firstChild) {
@@ -42,7 +44,7 @@ async function initClient () {
     }
 
     if (tabIndex >= 3) {
-      document.getElementById('account-tab').style.display = 'block';
+      document.getElementById('property-tab').style.display = 'block';
     } else {
       document.getElementById('property-tab').style.display = 'none';
       const propertiesContainer = document.getElementById('property-list');
@@ -52,7 +54,7 @@ async function initClient () {
     }
 
     if (tabIndex >= 4) {
-      document.getElementById('property-tab').style.display = 'block';
+      document.getElementById('view-tab').style.display = 'block';
     } else {
       document.getElementById('view-tab').style.display = 'none';
       const viewsContainer = document.getElementById('view-list');
@@ -62,7 +64,10 @@ async function initClient () {
     }
 
     if (tabIndex >= 5) {
-      document.getElementById('view-tab').style.display = 'block';
+      document.getElementById('first-of-path-tab').style.display = 'block';
+      document.getElementById('middle-of-path-tab').style.display = 'block';
+      document.getElementById('last-of-path-tab').style.display = 'block';
+      document.getElementById('footer-tab').style.display = 'block';
     } else {
       document.getElementById('first-of-path-tab').style.display = 'none';
       document.getElementById('middle-of-path-tab').style.display = 'none';
