@@ -7,7 +7,10 @@ const query = window.location.search
   .reduce((query, [ key, value ]) => (
     query.set(key, value),
     query
-  ), new Map())
+  ), new Map());
+const now = new Date();
+const startDate = query.get('startDate') || `${now.getFullYear() - 1}-${('0' + now.getMonth()).slice(-2)}-${('0' + now.getDate()).slice(-2)}`;
+const endDate = query.get('endDate') || `${now.getFullYear()}-${('0' + now.getMonth()).slice(-2)}-${('0' + now.getDate()).slice(-2)}`;
 const adSource = query.get('adSource') || 'criteo';
 const directChannels = query.get('directChannels') || 'direct';
 
@@ -178,6 +181,7 @@ function selectProperty (event) {
           viewButton.setAttribute('data-account-id', accountId);
           viewButton.setAttribute('data-property-id', propertyId);
           viewButton.setAttribute('data-view-id', view.id);
+          viewButton.setAttribute('data-view-currency', view.currency);
           viewItem.appendChild(viewButton);
           viewsContainer.appendChild(viewItem);
         });
@@ -194,9 +198,10 @@ function selectView (event) {
   if (event.target.tagName !== 'BUTTON') return null;
 
   const viewId = event.target.getAttribute('data-view-id');
+  const currency = event.target.getAttribute('data-view-currency') || 'USD';
 
   showLoader();
-  runReport(viewId, function (err, report) {
+  runReport(viewId, currency, function (err, report) {
     hideLoader();
     console.log('formated-report=', report);
 
@@ -231,12 +236,12 @@ function selectView (event) {
   });
 }
 
-function runReport (viewId, callback) {
+function runReport (viewId, currency, callback) {
   gapi.client.analytics.data.mcf
     .get({
       ids: `ga:${viewId}`,
-      'start-date': '2017-01-01',
-      'end-date': '2019-05-01',
+      'start-date': startDate,
+      'end-date': endDate,
       metrics: [
         'mcf:totalConversions',
         'mcf:totalConversionValue'
@@ -312,7 +317,7 @@ function runReport (viewId, callback) {
         query: {
           startDate: report.result.query['start-date'],
           endDate: report.result.query['end-date'],
-          currency: '$'
+          currency
         },
         sampling,
         firstOfPath: firstOfPathRows.reduce((accumulator, row) => (
@@ -397,7 +402,7 @@ function writeLastOfPathReport (report) {
     Based on a sample of ${beautifyInteger(report.sampling.size)} transactions (${beautifyFloat(report.sampling.rate * 100, '%')} sample rate)
     containing a ${beautifyWord(adSource)} retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
     a total of ${beautifyInteger(report.lastOfPath.size)} (${beautifyFloat(report.lastOfPath.size / (report.sampling.size / 100), '%')}) were attributed as the <strong><u>last step in the path</u></strong>
-    for a total amount of ${beautifyInteger(report.lastOfPath.value, report.query.currency)}.
+    for a total amount of ${beautifyFloat(report.lastOfPath.value, report.query.currency)}.
     <br />
     <br />
     This is due to the conversion latency being longer than <strong>30 days</strong>.
@@ -437,6 +442,7 @@ function drawChart (chartContainer, title, { query, rows }) {
       }
     },
     yAxis: {
+      minRange: 0,
       gridLineWidth: 0,
       lineColor: 'white',
       lineWidth: 1,
