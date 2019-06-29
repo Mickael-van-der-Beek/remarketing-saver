@@ -1,11 +1,11 @@
 'use strict';
 
 function showLoader () {
-  document.getElementById('loader').display = 'block';
+  document.getElementById('loader').style.display = 'block';
 }
 
 function hideLoader () {
-  document.getElementById('loader').display = 'none';
+  document.getElementById('loader').style.display = 'none';
 }
 
 async function initClient () {
