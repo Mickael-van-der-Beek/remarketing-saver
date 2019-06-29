@@ -1,5 +1,13 @@
 'use strict';
 
+function showLoader () {
+  document.getElementById('loader').display = 'block';
+}
+
+function hideLoader () {
+  document.getElementById('loader').display = 'none';
+}
+
 async function initClient () {
   if (window.hasOwnProperty('gapi') === false) {
     return alert('Adblocker!');
@@ -77,9 +85,10 @@ async function initClient () {
   }
 
   async function signIn () {
+    showLoader();
     const user = await gapi.auth2.getAuthInstance().signIn();
-
     const accounts = await gapi.client.analytics.management.accounts.list();
+    hideLoader();
 
     console.log('accounts=', accounts);
 
@@ -102,9 +111,11 @@ async function initClient () {
   async function selectAccount (event) {
     const accountId = event.target.getAttribute('data-account-id');
 
+    showLoader();
     const properties = await gapi.client.analytics.management.webproperties.list({
       accountId
     });
+    hideLoader();
 
     console.log('properties=', properties);
 
@@ -129,26 +140,30 @@ async function initClient () {
     const accountId = event.target.getAttribute('data-account-id');
     const propertyId = event.target.getAttribute('data-property-id');
 
+    showLoader();
     const views = await gapi.client.analytics.management.profiles.list({
       accountId,
       webPropertyId: propertyId
     });
+    hideLoader();
 
     console.log('views=', views);
 
     const viewsContainer = document.getElementById('view-list');
     clearTabs(4);
 
-    views.result.items.forEach(view => {
-      const viewItem = document.createElement('li');
-      const viewButton = document.createElement('button');
-      viewButton.textContent = `${view.name} (${view.id})`;
-      viewButton.setAttribute('data-account-id', accountId);
-      viewButton.setAttribute('data-property-id', propertyId);
-      viewButton.setAttribute('data-view-id', view.id);
-      viewItem.appendChild(viewButton);
-      viewsContainer.appendChild(viewItem);
-    });
+    views.result.items
+      .filter(view => view.eCommerceTracking === true)
+      .forEach(view => {
+        const viewItem = document.createElement('li');
+        const viewButton = document.createElement('button');
+        viewButton.textContent = `${view.name} (${view.id})`;
+        viewButton.setAttribute('data-account-id', accountId);
+        viewButton.setAttribute('data-property-id', propertyId);
+        viewButton.setAttribute('data-view-id', view.id);
+        viewItem.appendChild(viewButton);
+        viewsContainer.appendChild(viewItem);
+      });
 
     document.getElementById('view-tab').scrollIntoView();
   }
@@ -157,25 +172,30 @@ async function initClient () {
   async function selectView (event) {
     const viewId = event.target.getAttribute('data-view-id');
 
+    showLoader();
     const report = await runReport(viewId);
+    hideLoader();
 
     clearTabs(5);
 
     writeFirstOfPathReport(report);
     drawChart(
       document.getElementById('first-of-path-chart'),
+      `Reported revenue conversion paths with ${beautifyWord(adSource)} at the start`,
       { query: report.query, rows: report.firstOfPathRows }
     );
 
     writeMiddleOfPathReport(report);
     drawChart(
       document.getElementById('middle-of-path-chart'),
+      `Reported revenue conversion paths with ${beautifyWord(adSource)} in the middle`,
       { query: report.query, rows: report.middleOfPathRows }
     );
 
     writeLastOfPathReport(report);
     drawChart(
       document.getElementById('last-of-path-chart'),
+      `Reported revenue conversion paths with ${beautifyWord(adSource)} at the end`,
       { query: report.query, rows: report.lastOfPathRows }
     );
 
@@ -185,6 +205,7 @@ async function initClient () {
 
   // function runReport (report) {
   async function runReport (viewId) {
+    showLoader();
     const report = await gapi.client.analytics.data.mcf.get({
       ids: `ga:${viewId}`,
       'start-date': '2017-01-01',
@@ -207,6 +228,7 @@ async function initClient () {
       samplingLevel: 'HIGHER_PRECISION',
       'include-empty-rows': false
     });
+    hideLoader();
 
     console.log('REPORTS=', report);
 

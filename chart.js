@@ -1,6 +1,6 @@
 'use strict';
 
-function drawChart (chartContainer, { query, rows }) {
+function drawChart (chartContainer, title, { query, rows }) {
   Highcharts.chart(chartContainer, {
     credits: {
       enabled: false
@@ -10,7 +10,7 @@ function drawChart (chartContainer, { query, rows }) {
       backgroundColor: 'transparent'
     },
     title: {
-      text: 'USD to EUR exchange rate over time',
+      text: title,
       style: {
         color: 'white',
         font: 'bold 24px "Poppins", sans-serif'
