@@ -14,12 +14,29 @@ const directChannels = query.get('directChannels') || 'direct';
 clearTabs(1);
 hideLoader();
 
+document.getElementById('modal-close-button').addEventListener('click', hideModal)
+window.addEventListener('click', hideModal);
+
 function showLoader () {
   document.getElementById('loader').style.display = 'block';
 }
 
 function hideLoader () {
   document.getElementById('loader').style.display = 'none';
+}
+
+function showModal (message) {
+  document.getElementById('modal-message').textContent = message;
+  document.getElementById('modal-container').classList.add('show-modal');
+}
+
+function hideModal (event) {
+  if (
+    !document.getElementById('modal-content').contains(event.target) ||
+    event.target === document.getElementById('modal-close-button')
+  ) {
+    document.getElementById('modal-container').classList.remove('show-modal');
+  }
 }
 
 function clearTabs (tabIndex) {
@@ -94,12 +111,12 @@ function signIn (event) {
         })
         .catch(function (err) {
           hideLoader();
-          alert(err.details);
+          showModal(err.details);
         })
     })
     .catch(function (err) {
       hideLoader();
-      alert(err.details);
+      showModal(err.details);
     });
 }
 
@@ -132,7 +149,7 @@ function selectAccount (event) {
     })
     .catch(function (err) {
       hideLoader();
-      alert(err.details);
+      showModal(err.details);
     });
 }
 
@@ -169,7 +186,7 @@ function selectProperty (event) {
     })
     .catch(function (err) {
       hideLoader();
-      alert(err.details);
+      showModal(err.details);
     });
 }
 
@@ -184,7 +201,7 @@ function selectView (event) {
     console.log('formated-report=', report);
 
     if (err) {
-      return alert(err.details);
+      return showModal(err.details);
     }
 
     clearTabs(5);
@@ -477,7 +494,7 @@ function drawChart (chartContainer, title, { query, rows }) {
 
 function initClient () {
   if (window.hasOwnProperty('gapi') === false) {
-    return alert('Adblocker!');
+    return showModal('Adblocker!');
   }
 
   showLoader();
@@ -503,6 +520,6 @@ function initClient () {
     })
     .catch(function (err) {
       hideLoader();
-      alert(err.details);
+      showModal(err.details);
     });
 }
