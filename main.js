@@ -79,7 +79,7 @@ async function initClient () {
     console.log('accounts=', accounts);
 
     const accountsContainer = document.getElementById('account-list');
-    clearTabs(1);
+    clearTabs(2);
 
     accounts.result.items.forEach(account => {
       const accountItem = document.createElement('li');
@@ -104,7 +104,7 @@ async function initClient () {
     console.log('properties=', properties);
 
     const propertiesContainer = document.getElementById('property-list');
-    clearTabs(2);
+    clearTabs(3);
 
     properties.result.items.forEach(property => {
       const propertyItem = document.createElement('li');
@@ -132,7 +132,7 @@ async function initClient () {
     console.log('views=', views);
 
     const viewsContainer = document.getElementById('view-list');
-    clearTabs(3);
+    clearTabs(4);
 
     views.result.items.forEach(view => {
       const viewItem = document.createElement('li');
