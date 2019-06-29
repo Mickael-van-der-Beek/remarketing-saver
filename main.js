@@ -159,6 +159,8 @@ async function initClient () {
 
     const report = await runReport(viewId);
 
+    clearTabs(5);
+
     writeFirstOfPathReport(report);
     drawChart(
       document.getElementById('first-of-path-chart'),
