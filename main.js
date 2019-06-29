@@ -1,6 +1,10 @@
 'use strict';
 
 async function initClient () {
+  if (window.hasOwnProperty('gapi') === false) {
+    return alert('Adblocker!');
+  }
+
   await gapi.client.init({
     'clientId': '117859912987-fljbv2m0oqo1qje2prd2mtd6hiipb8s3.apps.googleusercontent.com',
     'apiKey': 'AIzaSyCwJ5EtOqMF8mNx49iBS7Axd6ycVe9PbF0',
@@ -36,6 +40,7 @@ async function initClient () {
       }
     }
     if (tabIndex < 3) {
+      document.getElementById('account-tab').style.display = 'block';
       document.getElementById('property-tab').style.display = 'none';
       const propertiesContainer = document.getElementById('property-list');
       while (propertiesContainer.firstChild) {
@@ -43,18 +48,23 @@ async function initClient () {
       }
     }
     if (tabIndex < 4) {
+      document.getElementById('account-tab').style.display = 'block';
+      document.getElementById('property-tab').style.display = 'block';
       document.getElementById('view-tab').style.display = 'none';
       const viewsContainer = document.getElementById('view-list');
       while (viewsContainer.firstChild) {
         viewsContainer.removeChild(viewsContainer.firstChild);
       }
     }
-    // if (tabIndex < 5) {
-    //   document.getElementById('first-of-path-tab').style.display = 'none';
-    //   document.getElementById('middle-of-path-tab').style.display = 'none';
-    //   document.getElementById('last-of-path-tab').style.display = 'none';
-    //   document.getElementById('footer-tab').style.display = 'none';
-    // }
+    if (tabIndex < 5) {
+      document.getElementById('account-tab').style.display = 'block';
+      document.getElementById('property-tab').style.display = 'block';
+      document.getElementById('view-tab').style.display = 'block';
+      document.getElementById('first-of-path-tab').style.display = 'none';
+      document.getElementById('middle-of-path-tab').style.display = 'none';
+      document.getElementById('last-of-path-tab').style.display = 'none';
+      document.getElementById('footer-tab').style.display = 'none';
+    }
   }
 
   async function signIn () {
