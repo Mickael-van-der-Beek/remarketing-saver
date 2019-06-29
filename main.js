@@ -105,7 +105,7 @@ async function initClient () {
       accountsContainer.appendChild(accountItem);
     });
 
-    document.getElementById('account-tab').scrollIntoView();
+    document.getElementById('account-tab').scrollIntoView({ behavior: 'smooth' });
   }
   document.getElementById('sign-in-button').onclick = signIn;
 
@@ -133,7 +133,7 @@ async function initClient () {
       propertiesContainer.appendChild(propertyItem);
     });
 
-    document.getElementById('property-tab').scrollIntoView();
+    document.getElementById('property-tab').scrollIntoView({ behavior: 'smooth' });
   }
   document.getElementById('account-list').onclick = selectAccount;
 
@@ -166,7 +166,7 @@ async function initClient () {
         viewsContainer.appendChild(viewItem);
       });
 
-    document.getElementById('view-tab').scrollIntoView();
+    document.getElementById('view-tab').scrollIntoView({ behavior: 'smooth' }) ;
   }
   document.getElementById('property-list').onclick = selectProperty;
 
@@ -200,7 +200,7 @@ async function initClient () {
       { query: report.query, rows: report.lastOfPathRows }
     );
 
-    document.getElementById('first-of-path-chart').scrollIntoView();
+    document.getElementById('first-of-path-chart').scrollIntoView({ behavior: 'smooth' });
   }
   document.getElementById('view-list').onclick = selectView;
 
