@@ -25,6 +25,7 @@ async function initClient () {
   const directChannels = query.get('directChannels') || 'direct';
 
   clearTabs(1);
+  hideLoader();
 
   await gapi.client.init({
     'clientId': '117859912987-fljbv2m0oqo1qje2prd2mtd6hiipb8s3.apps.googleusercontent.com',
