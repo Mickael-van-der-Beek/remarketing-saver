@@ -77,7 +77,7 @@ async function signIn (event) {
 document.getElementById('sign-in-button').onclick = signIn;
 
 async function selectAccount (event) {
-  if (event.target.tagName !== 'LI') return null;
+  if (event.target.tagName !== 'BUTTON') return null;
 
   const accountId = event.target.getAttribute('data-account-id');
 
@@ -107,7 +107,7 @@ async function selectAccount (event) {
 document.getElementById('account-list').onclick = selectAccount;
 
 async function selectProperty (event) {
-  if (event.target.tagName !== 'LI') return null;
+  if (event.target.tagName !== 'BUTTON') return null;
 
   const accountId = event.target.getAttribute('data-account-id');
   const propertyId = event.target.getAttribute('data-property-id');
@@ -142,7 +142,7 @@ async function selectProperty (event) {
 document.getElementById('property-list').onclick = selectProperty;
 
 async function selectView (event) {
-  if (event.target.tagName !== 'LI') return null;
+  if (event.target.tagName !== 'BUTTON') return null;
 
   const viewId = event.target.getAttribute('data-view-id');
 
