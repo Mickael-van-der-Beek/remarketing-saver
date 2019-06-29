@@ -178,10 +178,15 @@ html {
   }
 
   .lds-ring {
-    display: inline-block;
-    position: relative;
     width: 64px;
     height: 64px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: fixed;
+    display: inline-block;
   }
   .lds-ring div {
     box-sizing: border-box;
