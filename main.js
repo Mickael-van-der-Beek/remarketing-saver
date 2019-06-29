@@ -73,21 +73,21 @@ function clearTabs (tabIndex) {
     document.getElementById('footer-tab').style.display = 'none';
   }
 
-  if (tabIndex < 2) {
+  if (tabIndex <= 2) {
     const accountsContainer = document.getElementById('account-list');
     while (accountsContainer.firstChild) {
       accountsContainer.removeChild(accountsContainer.firstChild);
     }
   }
 
-  if (tabIndex < 3) {
+  if (tabIndex <= 3) {
     const propertiesContainer = document.getElementById('property-list');
     while (propertiesContainer.firstChild) {
       propertiesContainer.removeChild(propertiesContainer.firstChild);
     }
   }
 
-  if (tabIndex < 4) {
+  if (tabIndex <= 4) {
     const viewsContainer = document.getElementById('view-list');
     while (viewsContainer.firstChild) {
       viewsContainer.removeChild(viewsContainer.firstChild);
@@ -418,7 +418,9 @@ function writeLastOfPathReport (report) {
   `.trim();
 }
 
-function drawChart (chartContainer, title, { query, rows }) {
+function drawChart (chartContainer, title, report) {
+  const query = report.query;
+  const rows = report.rows;
   Highcharts.chart(chartContainer, {
     credits: {
       enabled: false
