@@ -157,7 +157,7 @@ async function initClient () {
   async function selectView (event) {
     const viewId = event.target.getAttribute('data-view-id');
 
-    const report = await runReport(data);
+    const report = await runReport(viewId);
 
     writeFirstOfPathReport(report);
     drawChart(
