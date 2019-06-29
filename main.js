@@ -222,9 +222,9 @@ async function initClient () {
     };
     console.log('formattedReport=', formattedReport);
 
-writeFirstOfPathReport(formattedReport);
-  writeMiddleOfPathReport(formattedReport);
-  writeLastOfPathReport(formattedReport);
+    writeFirstOfPathReport(formattedReport);
+    writeMiddleOfPathReport(formattedReport);
+    writeLastOfPathReport(formattedReport);
 
     return formattedReport;
   };
@@ -317,9 +317,9 @@ writeFirstOfPathReport(formattedReport);
 
     const svgHeight = chart.parentNode.offsetHeight;
     const svgWidth = chart.parentNode.offsetWidth;
-    
+
     const svg = d3.select(chart);
-    
+
     const margin = { top: 50, right: 20, bottom: 50, left: 20 };
     const width = svgWidth - margin.left - margin.right;
     const height = svgHeight - margin.top - margin.bottom;

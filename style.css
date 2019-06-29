@@ -44,7 +44,7 @@ html {
     transform: rotate(20deg); }
   article {
     width: 100%;
-    min-height: 100vh;  
+    min-height: 100vh;
   }
   article.fullHeight {
     height: 100vh;
@@ -157,7 +157,7 @@ html {
       margin-bottom: 100px;
       width: 100%;
   }
-  
+
   .list li {
         flex: 0 0 100%;
         padding: 0 8px;
@@ -173,6 +173,11 @@ html {
       width: 100%;
       height: 600px;
   }
+
+  .title {
+    border: 2px solid white;
+  }
+
   @media screen and (min-width: 768px) {
     .list li {
         flex: 0 0 33%;
