@@ -1,20 +1,30 @@
 'use strict';
 
 async function initClient () {
-  // await gapi.client.init({
-  //   'clientId': '117859912987-fljbv2m0oqo1qje2prd2mtd6hiipb8s3.apps.googleusercontent.com',
-  //   'apiKey': 'AIzaSyCwJ5EtOqMF8mNx49iBS7Axd6ycVe9PbF0',
-  //   'discoveryDocs': [
-  //     'https://www.googleapis.com/discovery/v1/apis/analytics/v3/rest'
-  //   ],
-  //   'scope': [
-  //     'email',
-  //     'openid',
-  //     'profile',
-  //     'https://www.googleapis.com/auth/analytics.readonly'
-  //   ].join(' ')
-  // });
+  await gapi.client.init({
+    'clientId': '117859912987-fljbv2m0oqo1qje2prd2mtd6hiipb8s3.apps.googleusercontent.com',
+    'apiKey': 'AIzaSyCwJ5EtOqMF8mNx49iBS7Axd6ycVe9PbF0',
+    'discoveryDocs': [
+      'https://www.googleapis.com/discovery/v1/apis/analytics/v3/rest'
+    ],
+    'scope': [
+      'email',
+      'openid',
+      'profile',
+      'https://www.googleapis.com/auth/analytics.readonly'
+    ].join(' ')
+  });
 
+  const query = window.location.search
+    .slice(1)
+    .split('&')
+    .map(param => param.split('='))
+    .reduce((query, [ key, value ]) => (
+      query.set(key, value),
+      query
+    ), new Map())
+  const adSource = query.get('adSource') || 'criteo';
+  const directChannels = (query.get('directChannels') || 'direct'); // .split(',');
   clearTabs(1);
 
   function clearTabs (tabIndex) {
@@ -52,6 +62,8 @@ async function initClient () {
 
     const accounts = await gapi.client.analytics.management.accounts.list();
 
+    console.log('accounts=', accounts);
+
     const accountsContainer = document.getElementById('account-list');
     clearTabs(1);
 
@@ -74,6 +86,8 @@ async function initClient () {
     const properties = await gapi.client.analytics.management.webproperties.list({
       accountId
     });
+
+    console.log('properties=', properties);
 
     const propertiesContainer = document.getElementById('property-list');
     clearTabs(2);
@@ -100,6 +114,8 @@ async function initClient () {
       accountId,
       webPropertyId: propertyId
     });
+
+    console.log('views=', views);
 
     const viewsContainer = document.getElementById('view-list');
     clearTabs(3);
@@ -128,9 +144,6 @@ async function initClient () {
 
   // async function runReport (viewId) {
   function runReport (report) {
-    const sourceAd = 'google';
-    const channelDirect = 'direct';
-
     // const report = await gapi.client.analytics.data.mcf.get({
     //   ids: `ga:${viewId}`,
     //   'start-date': '2017-01-01',
@@ -145,7 +158,7 @@ async function initClient () {
     //     'mcf:conversionDate'
     //   ].join(','),
     //   filters: [
-    //     `mcf:source=~^(${sourceAd})$`
+    //     `mcf:source=~^(${adSource})$`
     //   ].join(','),
     //   sort: [
     //     '-mcf:totalConversionValue'
@@ -171,25 +184,25 @@ async function initClient () {
 
     const firstOfPathRows = reportRows
       .filter(row => (
-        row[0].conversionPathValue[0].nodeValue.toLowerCase() === sourceAd &&
-        row[0].conversionPathValue.filter(path => path.nodeValue.toLowerCase() === sourceAd).length === 1
+        row[0].conversionPathValue[0].nodeValue.toLowerCase() === adSource &&
+        row[0].conversionPathValue.filter(path => path.nodeValue.toLowerCase() === adSource).length === 1
       ));
 
     const middleOfPathRows = reportRows
       .filter(row => (
-        row[0].conversionPathValue[0].nodeValue.toLowerCase() !== sourceAd &&
-        row[0].conversionPathValue[row[0].conversionPathValue.length - 1].nodeValue.toLowerCase() !== sourceAd &&
+        row[0].conversionPathValue[0].nodeValue.toLowerCase() !== adSource &&
+        row[0].conversionPathValue[row[0].conversionPathValue.length - 1].nodeValue.toLowerCase() !== adSource &&
         (
-          row[0].conversionPathValue.map(path => path.nodeValue.toLowerCase()).lastIndexOf(sourceAd) <
-          row[1].conversionPathValue.map(path => path.nodeValue.toLowerCase()).lastIndexOf(channelDirect)
+          row[0].conversionPathValue.map(path => path.nodeValue.toLowerCase()).lastIndexOf(adSource) <
+          row[1].conversionPathValue.map(path => path.nodeValue.toLowerCase()).lastIndexOf(directChannels)
         )
       ));
 
     const lastOfPathRows = reportRows
       .filter(row => (
         row[0].conversionPathValue.length > 1 &&
-        row[0].conversionPathValue[row[0].conversionPathValue.length - 1].nodeValue.toLowerCase() === sourceAd &&
-        row[0].conversionPathValue.filter(path => path.nodeValue.toLowerCase() === sourceAd).length === 1
+        row[0].conversionPathValue[row[0].conversionPathValue.length - 1].nodeValue.toLowerCase() === adSource &&
+        row[0].conversionPathValue.filter(path => path.nodeValue.toLowerCase() === adSource).length === 1
       ));
 
     const totalConversions = reportRows
@@ -261,11 +274,15 @@ async function initClient () {
     return dateWrapper.outerHTML;
   }
 
+  function beautifyWord (word) {
+    return `${word[0].toUpperCase()}${word.slice(1).toLowerCase()}`;
+  }
+
   function writeFirstOfPathReport (report) {
     document.getElementById('first-of-path-report').innerHTML = `
       Based on a sample of ${beautifyInteger(report.sampling.size)} transactions (${beautifyFloat(report.sampling.rate * 100, '%')} sample rate)
-      containing a Criteo retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
-      a total of ${beautifyInteger(report.firstOfPath.size)} (${beautifyFloat(report.firstOfPath.size / (report.sampling.size / 100), '%')}) were attributed as the first step in the path
+      containing a ${beautifyWord(adSource)} retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
+      a total of ${beautifyInteger(report.firstOfPath.size)} (${beautifyFloat(report.firstOfPath.size / (report.sampling.size / 100), '%')}) were attributed as the <strong><u>first step in the path</u></strong>
       for a total amount of ${beautifyFloat(report.firstOfPath.value, report.query.currency)}.
       <br />
       <br />
@@ -276,8 +293,8 @@ async function initClient () {
   function writeMiddleOfPathReport (report) {
     document.getElementById('middle-of-path-report').innerHTML = `
       Based on a sample of ${beautifyInteger(report.sampling.size)} transactions (${beautifyFloat(report.sampling.rate * 100, '%')} sample rate)
-      containing a Criteo retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
-      a total of ${beautifyInteger(report.middleOfPath.size)} (${beautifyFloat(report.middleOfPath.size / (report.sampling.size / 100), '%')}) were attributed as the intermediate step in the path
+      containing a ${beautifyWord(adSource)} retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
+      a total of ${beautifyInteger(report.middleOfPath.size)} (${beautifyFloat(report.middleOfPath.size / (report.sampling.size / 100), '%')}) were attributed as the <strong><u>intermediate step in the path</u></strong>
       for a total amount of ${beautifyFloat(report.middleOfPath.value, report.query.currency)}.
       <br />
       <br />
@@ -288,8 +305,8 @@ async function initClient () {
   function writeLastOfPathReport (report) {
     document.getElementById('last-of-path-report').innerHTML = `
       Based on a sample of ${beautifyInteger(report.sampling.size)} transactions (${beautifyFloat(report.sampling.rate * 100, '%')} sample rate)
-      containing a Criteo retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
-      a total of ${beautifyInteger(report.lastOfPath.size)} (${beautifyFloat(report.lastOfPath.size / (report.sampling.size / 100), '%')}) were attributed as the last step in the path
+      containing a ${beautifyWord(adSource)} retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
+      a total of ${beautifyInteger(report.lastOfPath.size)} (${beautifyFloat(report.lastOfPath.size / (report.sampling.size / 100), '%')}) were attributed as the <strong><u>last step in the path</u></strong>
       for a total amount of ${beautifyInteger(report.lastOfPath.value, report.query.currency)}.
       <br />
       <br />

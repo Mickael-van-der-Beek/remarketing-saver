@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <script type="text/javascript">
-      window.location.search !== '?pw=brussels' &&
+      /\bpw=brussels\b/.test(window.location.search) === false &&
       (window.location = 'https://google.com/');
     </script>
     <title>Remarketing Saver</title>
@@ -14,9 +14,7 @@
     <main>
       <article class="fullHeight">
         <section class="section--colm">
-          <h1 class="title">
-            <span style="border-right: 2px solid white">Remarketing</span> <span>Saver</span>
-          </h1>
+          <h1 class="title">Remarketing Saver</h1>
           <p>
             The <strong>Remarketing Saver</strong> is a <strong>FREE</strong> web application that analyzes your <a href="https://www.criteo.com/">Criteo</a> remarketing efficiency.
             <br />
