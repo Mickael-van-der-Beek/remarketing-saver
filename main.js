@@ -297,6 +297,8 @@ function runReport (viewId, currency, callback) {
         return row;
       });
 
+      window.rr = reportRows;
+
       const firstOfPathRows = reportRows
         .filter(row => (
           row[0].conversionPathValue[0].nodeValue.toLowerCase() === adSource &&
@@ -402,7 +404,8 @@ function writeFirstOfPathReport (report) {
     for a total amount of ${beautifyFloat(report.firstOfPath.value, report.query.currency)}.
     <br />
     <br />
-    This can be due to the conversion latency being longer than <strong>30 days</strong> or due to multi-device usage.
+    Due to the conversion latency being longer than <strong>30 days</strong> or due to multi-device usage, it's possible for remarketing to be used.
+    ${beautifyWord(adSource)} will account for these types of conversion paths which are considered to be inefficient!
   `.trim();
 }
 
@@ -414,7 +417,7 @@ function writeMiddleOfPathReport (report) {
     for a total amount of ${beautifyFloat(report.middleOfPath.value, report.query.currency)}.
     <br />
     <br />
-    This is due to the conversion latency being longer than <strong>30 days</strong>.
+    ${beautifyWord(adSource)} will account for these types of conversion paths which are considered to be inefficient!
   `.trim();
 }
 
@@ -426,7 +429,7 @@ function writeLastOfPathReport (report) {
     for a total amount of ${beautifyFloat(report.lastOfPath.value, report.query.currency)}.
     <br />
     <br />
-    This is due to the conversion latency being longer than <strong>30 days</strong>.
+    These types of conversion paths are the most optimal due to being the last step before conversion.
   `.trim();
 }
 
