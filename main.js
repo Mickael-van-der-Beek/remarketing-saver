@@ -301,12 +301,14 @@ function runReport (viewId, currency, callback) {
 
       const firstOfPathRows = reportRows
         .filter(row => (
+          row[0].conversionPathValue.length > 1 &&
           row[0].conversionPathValue[0].nodeValue.toLowerCase() === adSource &&
           row[0].conversionPathValue.filter(path => path.nodeValue.toLowerCase() === adSource).length === 1
         ));
 
       const middleOfPathRows = reportRows
         .filter(row => (
+          row[0].conversionPathValue.length > 1 &&
           row[0].conversionPathValue[0].nodeValue.toLowerCase() !== adSource &&
           row[0].conversionPathValue[row[0].conversionPathValue.length - 1].nodeValue.toLowerCase() !== adSource &&
           (
@@ -316,11 +318,7 @@ function runReport (viewId, currency, callback) {
         ));
 
       const lastOfPathRows = reportRows
-        .filter(row => (
-          row[0].conversionPathValue.length > 1 &&
-          row[0].conversionPathValue[row[0].conversionPathValue.length - 1].nodeValue.toLowerCase() === adSource &&
-          row[0].conversionPathValue.filter(path => path.nodeValue.toLowerCase() === adSource).length === 1
-        ));
+        .filter(row => row[0].conversionPathValue[row[0].conversionPathValue.length - 1].nodeValue.toLowerCase() === adSource);
 
       const totalConversions = reportRows
         .reduce((total, row) => total + row[3].primitiveValue, 0);
@@ -400,7 +398,7 @@ function writeFirstOfPathReport (report) {
   document.getElementById('first-of-path-report').innerHTML = `
     Based on a sample of ${beautifyInteger(report.sampling.size)} transactions (${beautifyFloat(report.sampling.rate * 100, '%')} sample rate)
     containing a ${beautifyWord(adSource)} retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
-    a total of ${beautifyInteger(report.firstOfPath.size)} (${beautifyFloat(report.firstOfPath.size / (report.sampling.size / 100), '%')}) were attributed as the <strong><u>first step in the path</u></strong>
+    a total of ${beautifyInteger(report.firstOfPath.size)} (${beautifyFloat(report.firstOfPath.size / (report.sampling.size / 100), '%')}) were only attributed in the <strong><u>first step of the path</u></strong>
     for a total amount of ${beautifyFloat(report.firstOfPath.value, report.query.currency)}.
     <br />
     <br />
@@ -413,7 +411,7 @@ function writeMiddleOfPathReport (report) {
   document.getElementById('middle-of-path-report').innerHTML = `
     Based on a sample of ${beautifyInteger(report.sampling.size)} transactions (${beautifyFloat(report.sampling.rate * 100, '%')} sample rate)
     containing a ${beautifyWord(adSource)} retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
-    a total of ${beautifyInteger(report.middleOfPath.size)} (${beautifyFloat(report.middleOfPath.size / (report.sampling.size / 100), '%')}) were attributed as the <strong><u>intermediate step in the path</u></strong>
+    a total of ${beautifyInteger(report.middleOfPath.size)} (${beautifyFloat(report.middleOfPath.size / (report.sampling.size / 100), '%')}) were only attributed in the <strong><u>intermediate steps of the path</u></strong>
     for a total amount of ${beautifyFloat(report.middleOfPath.value, report.query.currency)}.
     <br />
     <br />
@@ -425,7 +423,7 @@ function writeLastOfPathReport (report) {
   document.getElementById('last-of-path-report').innerHTML = `
     Based on a sample of ${beautifyInteger(report.sampling.size)} transactions (${beautifyFloat(report.sampling.rate * 100, '%')} sample rate)
     containing a ${beautifyWord(adSource)} retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
-    a total of ${beautifyInteger(report.lastOfPath.size)} (${beautifyFloat(report.lastOfPath.size / (report.sampling.size / 100), '%')}) were attributed as the <strong><u>last step in the path</u></strong>
+    a total of ${beautifyInteger(report.lastOfPath.size)} (${beautifyFloat(report.lastOfPath.size / (report.sampling.size / 100), '%')}) were at least attributed once in the <strong><u>last step of the path</u></strong>
     for a total amount of ${beautifyFloat(report.lastOfPath.value, report.query.currency)}.
     <br />
     <br />
@@ -468,7 +466,7 @@ function drawChart (chartContainer, title, report) {
       }
     },
     yAxis: {
-      minRange: 0,
+      min: 0,
       gridLineWidth: 0,
       lineColor: 'white',
       lineWidth: 1,
