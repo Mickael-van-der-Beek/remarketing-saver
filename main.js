@@ -189,23 +189,23 @@ function selectProperty (event) {
       const viewsContainer = document.getElementById('view-list');
       clearTabs(4);
 
-      document.getElementById('view-no-data').style.display = views.result.items.length === 0
-        ? 'block'
-        : 'none';
+      const viewRows = views.result.items.filter(view => view.eCommerceTracking === true);
 
-      views.result.items
-        .filter(view => view.eCommerceTracking === true)
-        .forEach(view => {
-          const viewItem = document.createElement('li');
-          const viewButton = document.createElement('button');
-          viewButton.textContent = `${view.name} (${view.id})`;
-          viewButton.setAttribute('data-account-id', accountId);
-          viewButton.setAttribute('data-property-id', propertyId);
-          viewButton.setAttribute('data-view-id', view.id);
-          viewButton.setAttribute('data-view-currency', view.currency);
-          viewItem.appendChild(viewButton);
-          viewsContainer.appendChild(viewItem);
-        });
+      document.getElementById('view-no-data').style.display = viewRows.length === 0
+          ? 'block'
+          : 'none';
+
+      viewRows.forEach(view => {
+        const viewItem = document.createElement('li');
+        const viewButton = document.createElement('button');
+        viewButton.textContent = `${view.name} (${view.id})`;
+        viewButton.setAttribute('data-account-id', accountId);
+        viewButton.setAttribute('data-property-id', propertyId);
+        viewButton.setAttribute('data-view-id', view.id);
+        viewButton.setAttribute('data-view-currency', view.currency);
+        viewItem.appendChild(viewButton);
+        viewsContainer.appendChild(viewItem);
+      });
 
       document.getElementById('view-tab').scrollIntoView({ behavior: 'smooth' });
     })
