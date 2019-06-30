@@ -110,6 +110,10 @@ function signIn (event) {
           const accountsContainer = document.getElementById('account-list');
           clearTabs(2);
 
+          document.getElementById('account-no-data').style.display = accounts.result.items.length === 0
+            ? 'block'
+            : 'none';
+
           accounts.result.items.forEach(account => {
             const accountItem = document.createElement('li');
             const accountButton = document.createElement('button');
@@ -147,6 +151,10 @@ function selectAccount (event) {
       const propertiesContainer = document.getElementById('property-list');
       clearTabs(3);
 
+      document.getElementById('property-no-data').style.display = properties.result.items.length === 0
+        ? 'block'
+        : 'none';
+
       properties.result.items.forEach(property => {
         const propertyItem = document.createElement('li');
         const propertyButton = document.createElement('button');
@@ -180,6 +188,10 @@ function selectProperty (event) {
 
       const viewsContainer = document.getElementById('view-list');
       clearTabs(4);
+
+      document.getElementById('view-no-data').style.display = views.result.items.length === 0
+        ? 'block'
+        : 'none';
 
       views.result.items
         .filter(view => view.eCommerceTracking === true)
@@ -360,15 +372,15 @@ function runReport (viewId, currency, callback) {
     .catch(callback);
 };
 
-function beautifyInteger (integer, unit) {
+function beautifyInteger (integer) {
   const integerWrapper = document.createElement('strong');
-  integerWrapper.innerText = integer.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (unit || '');
+  integerWrapper.innerText = integer.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return integerWrapper.outerHTML;
 }
 
 function beautifyFloat (float, unit) {
   const floatWrapper = document.createElement('strong');
-  floatWrapper.innerText = float.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (unit || '');
+  floatWrapper.innerText = float.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (unit === '%' ? unit : (unit ? ' ' + unit : ''));
   return floatWrapper.outerHTML;
 }
 
