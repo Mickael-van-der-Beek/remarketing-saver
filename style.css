@@ -55,6 +55,13 @@ html {
     align-items: center;
     justify-content: center;
   }
+  .section--header--colm {
+      flex-direction: column;
+      width: 100%;
+      max-width: 980px;
+      margin: auto;
+      padding: 30px 20px;
+  }
   .section--colm {
       flex-direction: column;
       width: 100%;
@@ -92,7 +99,11 @@ html {
     font-size: 22px;
   }
   section > p strong,
-  section > p a {
+  section > ul strong,
+  section > ol strong,
+  section > p a,
+  section > ul a,
+  section > ol a {
     color: #4F52D4;
   }
   section > h1 {
