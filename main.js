@@ -403,11 +403,10 @@ function writeFirstOfPathReport (report) {
     a total of ${beautifyInteger(report.firstOfPath.size)} (${beautifyFloat(report.firstOfPath.size / (report.sampling.size / 100), '%')}) were only attributed in the <strong><u>first step of the path</u></strong>
     for a total amount of ${beautifyFloat(report.firstOfPath.value, report.query.currency)}.
     <br />
-    <br />
     Due to the conversion latency being longer than <strong>30 days</strong> or due to multi-device usage, it's possible for remarketing to be used.
     ${beautifyWord(adSource)} will account for these types of conversion paths which are considered to be inefficient!
     <br />
-    Your potential savings using our optimisation: ${report.firstOfPath.size / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100)}% of your ${beautifyWord(adSource)} budget!
+    Your potential savings using our optimisation: ${beautifyFloat(report.firstOfPath.size / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100))% of your ${beautifyWord(adSource)} budget!
   `.trim();
 }
 
@@ -418,10 +417,9 @@ function writeMiddleOfPathReport (report) {
     a total of ${beautifyInteger(report.middleOfPath.size)} (${beautifyFloat(report.middleOfPath.size / (report.sampling.size / 100), '%')}) were only attributed in the <strong><u>intermediate steps of the path</u></strong>
     for a total amount of ${beautifyFloat(report.middleOfPath.value, report.query.currency)}.
     <br />
-    <br />
     ${beautifyWord(adSource)} will account for these types of conversion paths which are considered to be inefficient!
     <br />
-    Your potential savings using our optimisation: ${report.middleOfPath.size / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100)}% of your ${beautifyWord(adSource)} budget!
+    Your potential savings using our optimisation: ${beautifyFloat(report.middleOfPath.size / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100))}% of your ${beautifyWord(adSource)} budget!
   `.trim();
 }
 
@@ -431,7 +429,6 @@ function writeLastOfPathReport (report) {
     containing a ${beautifyWord(adSource)} retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
     a total of ${beautifyInteger(report.lastOfPath.size)} (${beautifyFloat(report.lastOfPath.size / (report.sampling.size / 100), '%')}) were at least attributed once in the <strong><u>last step of the path</u></strong>
     for a total amount of ${beautifyFloat(report.lastOfPath.value, report.query.currency)}.
-    <br />
     <br />
     These types of conversion paths are the most optimal due to being the last step before conversion.
   `.trim();
