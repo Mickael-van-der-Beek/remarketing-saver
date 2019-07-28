@@ -436,7 +436,7 @@ function writeLastOfPathReport (report) {
 
 function writeContactSection (report) {
   document.getElementById('contact-section').innerHTML = `
-    If you want to save ${beautifyFloat((report.firstOfPath.size + report.middleOfPath.size) / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100)), '%'}
+    If you want to save ${beautifyFloat((report.firstOfPath.size + report.middleOfPath.size) / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100), '%')}
     on your ${beautifyWord(adSource)} remarketing budget, please contact us and we will advise you with the necessary steps to start saving.
     <br /><br />
     tel: <a href="tel:+32012345">+32 012 345 678</a>
