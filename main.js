@@ -253,6 +253,8 @@ function selectView (event) {
       { query: report.query, rows: report.lastOfPathRows }
     );
 
+    writeContactSection(report);
+
     document.getElementById('first-of-path-chart').scrollIntoView({ behavior: 'smooth' });
   });
 }
@@ -404,6 +406,8 @@ function writeFirstOfPathReport (report) {
     <br />
     Due to the conversion latency being longer than <strong>30 days</strong> or due to multi-device usage, it's possible for remarketing to be used.
     ${beautifyWord(adSource)} will account for these types of conversion paths which are considered to be inefficient!
+    <br />
+    Your potential savings using our optimisation: ${report.firstOfPath.size / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100)}% of your ${beautifyWord(adSource)} budget!
   `.trim();
 }
 
@@ -416,6 +420,8 @@ function writeMiddleOfPathReport (report) {
     <br />
     <br />
     ${beautifyWord(adSource)} will account for these types of conversion paths which are considered to be inefficient!
+    <br />
+    Your potential savings using our optimisation: ${report.middleOfPath.size / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100)}% of your ${beautifyWord(adSource)} budget!
   `.trim();
 }
 
@@ -428,6 +434,17 @@ function writeLastOfPathReport (report) {
     <br />
     <br />
     These types of conversion paths are the most optimal due to being the last step before conversion.
+  `.trim();
+}
+
+function writeContactSection (report) {
+  document.getElementById('contact-section').innerHTML = `
+    If you want to save ${(report.firstOfPath.size + report.middleOfPath.size) / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100)}%
+    on your remarketing budget, please contact us and we will advise you with the necessary steps to start saving.
+    <br /><br />
+    tel: <a href="tel:+32012345">+32 012 345 678</a>
+    <br /><br />
+    email: <a href="mailto:test@remarketingsaver.com">test@remarketingsaver.com</a>
   `.trim();
 }
 
