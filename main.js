@@ -398,28 +398,29 @@ function beautifyWord (word) {
 
 function writeFirstOfPathReport (report) {
   document.getElementById('first-of-path-report').innerHTML = `
-    Based on a sample of ${beautifyInteger(report.sampling.size)} transactions (${beautifyFloat(report.sampling.rate * 100, '%')} sample rate)
-    containing a ${beautifyWord(adSource)} retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
-    a total of ${beautifyInteger(report.firstOfPath.size)} (${beautifyFloat(report.firstOfPath.size / (report.sampling.size / 100), '%')}) were only attributed in the <strong><u>first step of the path</u></strong>
+    In ${beautifyInteger(report.sampling.size)} transactions (${beautifyFloat(report.sampling.rate * 100, '%')} sample rate),
+    ${beautifyWord(adSource)} retargeting ads appeared in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)}.
+    In ${beautifyInteger(report.firstOfPath.size)} (${beautifyFloat(report.firstOfPath.size / (report.sampling.size / 100), '%')}) of these transactions, ${beautifyWord(adSource)} retargeting ads appeared as the <strong><u>first step of the path</u></strong>
     for a total amount of ${beautifyFloat(report.firstOfPath.value, report.query.currency)}.
     <br />
-    Due to the conversion latency being longer than <strong>30 days</strong> or due to multi-device usage, it's possible for remarketing to be used.
-    ${beautifyWord(adSource)} will account for these types of conversion paths which are considered to be inefficient!
+    In principle Criteo remarketing ads can never be the first step in conversion paths (it is <strong>REmarketing</strong> after all!).
+    Due to the conversion latency being longer than <strong>30 days</strong>, multi-device usage and fragmentation of the user journey, it is possible for remarketing to appear as the first step in the conversion paths.
     <br />
+    ${beautifyWord(adSource)} will account for these types of conversion paths which are considered to be inefficient!
     Your potential savings using our optimisation: ${beautifyFloat(report.firstOfPath.size / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100), '%')} of your ${beautifyWord(adSource)} remarketing budget!
   `.trim();
 }
 
 function writeMiddleOfPathReport (report) {
   document.getElementById('middle-of-path-report').innerHTML = `
-    Based on a sample of ${beautifyInteger(report.sampling.size)} transactions (${beautifyFloat(report.sampling.rate * 100, '%')} sample rate)
-    containing a ${beautifyWord(adSource)} retargeting ad in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)},
-    a total of ${beautifyInteger(report.middleOfPath.size)} (${beautifyFloat(report.middleOfPath.size / (report.sampling.size / 100), '%')}) were only attributed in the <strong><u>intermediate steps of the path</u></strong>
-    for a total amount of ${beautifyFloat(report.middleOfPath.value, report.query.currency)}.
+    In ${beautifyInteger(report.sampling.size)} transactions (${beautifyFloat(report.sampling.rate * 100, '%')} sample rate),
+    ${beautifyWord(adSource)} retargeting ads appeared in the customer's conversion path between ${beautifyDate(report.query.startDate)} and ${beautifyDate(report.query.endDate)}.
+    In ${beautifyInteger(report.middleOfPath.size)} (${beautifyFloat(report.middleOfPath.size / (report.sampling.size / 100), '%')}) of these transactions, ${beautifyWord(adSource)} retargeting ads appeared as <strong><u>intermediate steps</u></strong>
+    (not the first, not the last, but in the middle) in the conversion path but was preceeded / followed by direct and / or email traffic.
+    The total revenue of these transactions was ${beautifyFloat(report.middleOfPath.value, report.query.currency)}.
     <br />
     ${beautifyWord(adSource)} will account for these types of conversion paths which are considered to be inefficient!
-    <br />
-    Your potential savings using our optimisation: ${beautifyFloat(report.middleOfPath.size / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100), '%')} of your ${beautifyWord(adSource)} remarketing budget!
+    Your potential savings using our optimisation: ${beautifyFloat(report.middleOfPath.size / ((report.middleOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100), '%')} of your ${beautifyWord(adSource)} remarketing budget!
   `.trim();
 }
 
