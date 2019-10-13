@@ -405,7 +405,7 @@ function writeFirstOfPathReport (report) {
     Due to the conversion latency being longer than <strong>30 days</strong>, multi-device usage and fragmentation of the user journey, it is possible for remarketing to appear as the first step in the conversion paths.
     <br />
     ${beautifyWord(adSource)} will account for these types of conversion paths which are considered to be inefficient!
-    Your potential savings using our optimisation: ${beautifyFloat(report.firstOfPath.size / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100), '%')} of your ${beautifyWord(adSource)} remarketing budget!
+    Your potential savings using our optimisation: ${beautifyFloat(report.firstOfPath.size / (report.sampling.size / 100), '%')} of your ${beautifyWord(adSource)} remarketing budget!
   `.trim();
 }
 
@@ -418,7 +418,7 @@ function writeMiddleOfPathReport (report) {
     The total revenue of these transactions was ${beautifyFloat(report.middleOfPath.value, report.query.currency)}.
     <br />
     ${beautifyWord(adSource)} will account for these types of conversion paths which are considered to be inefficient!
-    Your potential savings using our optimisation: ${beautifyFloat(report.middleOfPath.size / ((report.middleOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100), '%')} of your ${beautifyWord(adSource)} remarketing budget!
+    Your potential savings using our optimisation: ${beautifyFloat(report.middleOfPath.size / (report.sampling.size / 100), '%')} of your ${beautifyWord(adSource)} remarketing budget!
   `.trim();
 }
 
@@ -435,7 +435,7 @@ function writeLastOfPathReport (report) {
 
 function writeContactSection (report) {
   document.getElementById('contact-section').innerHTML = `
-    If you want to save ${beautifyFloat((report.firstOfPath.size + report.middleOfPath.size) / ((report.firstOfPath.size + report.middleOfPath.size + report.lastOfPath.size) / 100), '%')}
+    If you want to save ${beautifyFloat((report.firstOfPath.size + report.middleOfPath.size) / (report.sampling.size / 100), '%')}
     on your ${beautifyWord(adSource)} remarketing budget, please contact us and we will advise you with the necessary steps to start saving.
     <br /><br />
     tel: <a href="tel:+32012345">+32 012 345 678</a>
