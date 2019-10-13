@@ -12,7 +12,7 @@ const now = new Date();
 const startDate = query.get('startDate') || `${now.getFullYear() - 1}-${('0' + now.getMonth()).slice(-2)}-${('0' + now.getDate()).slice(-2)}`;
 const endDate = query.get('endDate') || `${now.getFullYear()}-${('0' + now.getMonth()).slice(-2)}-${('0' + now.getDate()).slice(-2)}`;
 const adSource = query.get('adSource') || 'criteo';
-const directChannels = query.get('directChannels') || 'direct';
+const directChannels = new Set(query.get('directChannels') || ['direct', 'email']);
 
 clearTabs(1);
 hideLoader();
@@ -313,10 +313,8 @@ function runReport (viewId, currency, callback) {
           row[0].conversionPathValue.length > 1 &&
           row[0].conversionPathValue[0].nodeValue.toLowerCase() !== adSource &&
           row[0].conversionPathValue[row[0].conversionPathValue.length - 1].nodeValue.toLowerCase() !== adSource &&
-          (
-            row[0].conversionPathValue.map(path => path.nodeValue.toLowerCase()).lastIndexOf(adSource) <
-            row[1].conversionPathValue.map(path => path.nodeValue.toLowerCase()).lastIndexOf(directChannels)
-          )
+          row[0].conversionPathValue.find(path => path.nodeValue.toLowerCase() === adSource) !== undefined &&
+          row[1].conversionPathValue.find(path => directChannels.has(path.nodeValue.toLowerCase())) !== undefined
         ));
 
       const lastOfPathRows = reportRows
