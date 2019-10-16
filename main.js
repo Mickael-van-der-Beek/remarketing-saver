@@ -29,7 +29,7 @@ function hideLoader () {
 }
 
 function showModal (message, title, advice) {
-  document.getElementById('modal-message').textContent = message;
+  document.getElementById('modal-message').innerHTML = message;
   document.getElementById('modal-title').textContent = title || 'An Error Occured:';
   document.getElementById('modal-advice').textContent = advice || 'Please try again, refresh your browser or contact us.';
   document.getElementById('modal-container').classList.add('show-modal');
@@ -443,12 +443,12 @@ function writeLastOfPathReport (report) {
 function writeContactSection (report) {
   document.getElementById('contact-hook').innerHTML = `
     If you want to save ${beautifyFloat((report.firstOfPath.size + report.middleOfPath.size) / (report.sampling.size / 100), '%')}
-    on your ${beautifyWord(adSource)} remarketing budget, please contact us and we will advise you with the necessary steps to start saving.
+    on your <strong>${beautifyWord(adSource)}<strong> remarketing budget, please contact us and we will advise you with the necessary steps to start saving.
   `;
   document.getElementById('report-url').value = report.url;
-  document.getElementById('report-first-of-path').value = beautifyFloat(report.firstOfPath.value, report.query.currency);
-  document.getElementById('report-middle-of-path').value = beautifyFloat(report.middleOfPath.value, report.query.currency);
-  document.getElementById('report-last-of-path').value = beautifyFloat(report.lastOfPath.value, report.query.currency);
+  document.getElementById('report-first-of-path').value = [ report.firstOfPath.value, report.query.currency ].join('');
+  document.getElementById('report-middle-of-path').value = [ report.middleOfPath.value, report.query.currency ].join('');
+  document.getElementById('report-last-of-path').value = [ report.lastOfPath.value, report.query.currency ].join('');
   document.getElementById('target-frame').onload = () => showModal(
     'We will come back to you within the next <strong>24 hours<strong>.',
     'Thank your for contacting us!',
