@@ -28,8 +28,10 @@ function hideLoader () {
   document.getElementById('loader').style.display = 'none';
 }
 
-function showModal (message) {
+function showModal (message, title, advice) {
   document.getElementById('modal-message').textContent = message;
+  document.getElementById('modal-title').textContent = title || 'An Error Occured:';
+  document.getElementById('modal-advice').textContent = advice || 'Please try again, refresh your browser or contact us.';
   document.getElementById('modal-container').classList.add('show-modal');
 }
 
@@ -447,15 +449,11 @@ function writeContactSection (report) {
   document.getElementById('report-first-of-path').value = beautifyFloat(report.firstOfPath.value, report.query.currency);
   document.getElementById('report-middle-of-path').value = beautifyFloat(report.middleOfPath.value, report.query.currency);
   document.getElementById('report-last-of-path').value = beautifyFloat(report.lastOfPath.value, report.query.currency);
-  document.getElementById('target-frame').onload = () => (window.location.href = window.location.href);
-  // document.getElementById('contact-section').innerHTML = `
-  //   If you want to save ${beautifyFloat((report.firstOfPath.size + report.middleOfPath.size) / (report.sampling.size / 100), '%')}
-  //   on your ${beautifyWord(adSource)} remarketing budget, please contact us and we will advise you with the necessary steps to start saving.
-  //   <br /><br />
-  //   tel: <a href="tel:+32012345">+32 012 345 678</a>
-  //   <br /><br />
-  //   email: <a href="mailto:test@remarketingsaver.com">test@remarketingsaver.com</a>
-  // `.trim();
+  document.getElementById('target-frame').onload = () => showModal(
+    'We will come back to you within the next <strong>24 hours<strong>.',
+    'Thank your for contacting us!',
+    'Feel free to review other websites.'
+  );
 }
 
 function drawChart (chartContainer, title, report) {
