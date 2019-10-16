@@ -161,6 +161,7 @@ function selectAccount (event) {
         propertyButton.textContent = `${property.name} (${property.id})`;
         propertyButton.setAttribute('data-account-id', accountId);
         propertyButton.setAttribute('data-property-id', property.id);
+        propertyButton.setAttribute('data-property-url', property.websiteUrl);
         propertyItem.appendChild(propertyButton);
         propertiesContainer.appendChild(propertyItem);
       });
@@ -178,6 +179,7 @@ function selectProperty (event) {
 
   const accountId = event.target.getAttribute('data-account-id');
   const propertyId = event.target.getAttribute('data-property-id');
+  const propertyUrl = event.target.getAttribute('data-property-url');
 
   showLoader();
   gapi.client.analytics.management.profiles
@@ -201,6 +203,7 @@ function selectProperty (event) {
         viewButton.textContent = `${view.name} (${view.id})`;
         viewButton.setAttribute('data-account-id', accountId);
         viewButton.setAttribute('data-property-id', propertyId);
+        viewButton.setAttribute('data-property-url', propertyUrl);
         viewButton.setAttribute('data-view-id', view.id);
         viewButton.setAttribute('data-view-currency', view.currency);
         viewItem.appendChild(viewButton);
@@ -220,9 +223,10 @@ function selectView (event) {
 
   const viewId = event.target.getAttribute('data-view-id');
   const currency = event.target.getAttribute('data-view-currency') || 'USD';
+  const propertyUrl = event.target.getAttribute('data-property-url');
 
   showLoader();
-  runReport(viewId, currency, (err, report) => {
+  runReport(viewId, currency, propertyUrl, (err, report) => {
     hideLoader();
     console.log('formated-report=', report);
 
@@ -259,7 +263,7 @@ function selectView (event) {
   });
 }
 
-function runReport (viewId, currency, callback) {
+function runReport (viewId, currency, propertyUrl, callback) {
   gapi.client.analytics.data.mcf
     .get({
       ids: `ga:${viewId}`,
@@ -335,6 +339,7 @@ function runReport (viewId, currency, callback) {
       };
 
       const formattedReport = {
+        url: propertyUrl,
         query: {
           startDate: report.result.query['start-date'],
           endDate: report.result.query['end-date'],
@@ -434,14 +439,23 @@ function writeLastOfPathReport (report) {
 }
 
 function writeContactSection (report) {
-  document.getElementById('contact-section').innerHTML = `
+  document.getElementById('contact-hook').innerHTML = `
     If you want to save ${beautifyFloat((report.firstOfPath.size + report.middleOfPath.size) / (report.sampling.size / 100), '%')}
     on your ${beautifyWord(adSource)} remarketing budget, please contact us and we will advise you with the necessary steps to start saving.
-    <br /><br />
-    tel: <a href="tel:+32012345">+32 012 345 678</a>
-    <br /><br />
-    email: <a href="mailto:test@remarketingsaver.com">test@remarketingsaver.com</a>
-  `.trim();
+  `;
+  document.getElementById('report-url').value = report.url;
+  document.getElementById('report-first-of-path').value = beautifyFloat(report.firstOfPath.value, report.query.currency);
+  document.getElementById('report-middle-of-path').value = beautifyFloat(report.middleOfPath.value, report.query.currency);
+  document.getElementById('report-last-of-path').value = beautifyFloat(report.lastOfPath.value, report.query.currency);
+  document.getElementById('contact-form').onsubmit = () => (window.location.href = window.location.href);
+  // document.getElementById('contact-section').innerHTML = `
+  //   If you want to save ${beautifyFloat((report.firstOfPath.size + report.middleOfPath.size) / (report.sampling.size / 100), '%')}
+  //   on your ${beautifyWord(adSource)} remarketing budget, please contact us and we will advise you with the necessary steps to start saving.
+  //   <br /><br />
+  //   tel: <a href="tel:+32012345">+32 012 345 678</a>
+  //   <br /><br />
+  //   email: <a href="mailto:test@remarketingsaver.com">test@remarketingsaver.com</a>
+  // `.trim();
 }
 
 function drawChart (chartContainer, title, report) {

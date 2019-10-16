@@ -273,3 +273,17 @@ html {
   #modal-message {
     color: #ff5151;
   }
+  #contact-form {
+    width: 40%;
+  }
+  #contact-form input,
+  #contact-form textarea {
+    border-radius: 25px;
+    font-size: 16px;
+  }
+  #contact-form input {
+    float: right;
+  }
+  #contact-form label {
+    float: left;
+  }

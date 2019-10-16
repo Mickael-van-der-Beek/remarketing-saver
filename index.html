@@ -173,7 +173,84 @@
 
       <article id="footer-tab" class="fullHeight">
         <section class="section--colm">
-          <p id="contact-section"></p>
+          <!-- <p id="contact-section"></p> -->
+          <form
+            id="contact-form"
+            method="POST"
+            autocomplete="on"
+            action="https://hooks.zapier.com/hooks/catch/5892461/ou6e1bc/silent/"
+            target="target-frame"
+          >
+            <fieldset>
+              <legend>Contact</legend>
+              <div>
+                <label for="given-name">
+                  First name:
+                </label>
+                <p id="contact-hook"></p>
+                <input
+                  autocomplete="given-name"
+                  id="given-name"
+                  name="givenName"
+                  pattern=".*\S+.*"
+                  required="enabled"
+                  type="text"
+                />
+                <br />
+                <label for="family-name">
+                  Last name:
+                </label>
+                <input
+                  autocomplete="family-name"
+                  id="family-name"
+                  name="lastName"
+                  pattern=".*\S+.*"
+                  required="enabled"
+                  type="text"
+                />
+                <br />
+                <label for="email">
+                  Email address:
+                </label>
+                <input
+                  autocomplete="email"
+                  id="email"
+                  name="email"
+                  required="enabled"
+                  type="email"
+                />
+                <br />
+                <label for="telephone">
+                  Phone number:
+                </label>
+                <input
+                  autocomplete="tel"
+                  id="telephone"
+                  name="telephone"
+                  type="tel"
+                />
+                <input type="hidden">
+                <input id="report-url" name="url" type="hidden" />
+                <input id="report-first-of-path" name="first-of-path" type="hidden" />
+                <input id="report-middle-of-path" name="middle-of-path" type="hidden" />
+                <input id="report-last-of-path" name="last-of-path" type="hidden" />
+                <br /><br />
+                <!-- <label for="message">
+                  Message:
+                </label> -->
+                <textarea
+                  cols=40
+                  id="message"
+                  name="message"
+                  required="enabled"
+                  rows=15
+                ></textarea>
+                <br />
+                <br />
+                <button type="submit">Submit</button>
+              </div>
+            </fieldset>
+          </form>
         </section>
       </article>
     </main>
@@ -193,6 +270,8 @@
         <p>Please try again, refresh your browser or contact us.</p>
       </div>
     </div>
+
+    <iframe width="0" height="0" border="0" name="target-frame" id="target-frame"></iframe>
 
     <script src="./highcharts.min.js"></script>
     <script src="./main.js" charset="utf-8"></script>
