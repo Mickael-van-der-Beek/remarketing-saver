@@ -449,11 +449,14 @@ function writeContactSection (report) {
   document.getElementById('report-first-of-path').value = beautifyFloat(report.firstOfPath.value, report.query.currency).replace(/<\/?[^>]+?>/gi, '');
   document.getElementById('report-middle-of-path').value = beautifyFloat(report.middleOfPath.value, report.query.currency).replace(/<\/?[^>]+?>/gi, '');
   document.getElementById('report-last-of-path').value = beautifyFloat(report.lastOfPath.value, report.query.currency).replace(/<\/?[^>]+?>/gi, '');
-  document.getElementById('target-frame').onload = () => showModal(
-    'We will come back to you within the next <strong>24 hours<strong>.',
-    'Thank your for contacting us!',
-    'Feel free to review other websites.'
-  );
+  document.getElementById('target-frame').onload = () => {
+    showModal(
+      'We will come back to you within the next <strong>24 hours<strong>.',
+      'Thank your for contacting us!',
+      'Feel free to review other websites.'
+    );
+    document.getElementById('contact-form').reset();
+  };
 }
 
 function drawChart (chartContainer, title, report) {
