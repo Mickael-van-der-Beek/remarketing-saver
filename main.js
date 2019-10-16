@@ -446,9 +446,9 @@ function writeContactSection (report) {
     on your <strong>${beautifyWord(adSource)}<strong> remarketing budget, please contact us and we will advise you with the necessary steps to start saving.
   `;
   document.getElementById('report-url').value = report.url;
-  document.getElementById('report-first-of-path').value = [ report.firstOfPath.value, report.query.currency ].join('');
-  document.getElementById('report-middle-of-path').value = [ report.middleOfPath.value, report.query.currency ].join('');
-  document.getElementById('report-last-of-path').value = [ report.lastOfPath.value, report.query.currency ].join('');
+  document.getElementById('report-first-of-path').value = beautifyFloat(report.firstOfPath.value, report.query.currency).replace(/<\/?[^>]+?>/gi, '');
+  document.getElementById('report-middle-of-path').value = beautifyFloat(report.middleOfPath.value, report.query.currency).replace(/<\/?[^>]+?>/gi, '');
+  document.getElementById('report-last-of-path').value = beautifyFloat(report.lastOfPath.value, report.query.currency).replace(/<\/?[^>]+?>/gi, '');
   document.getElementById('target-frame').onload = () => showModal(
     'We will come back to you within the next <strong>24 hours<strong>.',
     'Thank your for contacting us!',
