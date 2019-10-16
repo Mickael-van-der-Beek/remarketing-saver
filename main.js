@@ -443,7 +443,7 @@ function writeLastOfPathReport (report) {
 function writeContactSection (report) {
   document.getElementById('contact-hook').innerHTML = `
     If you want to save ${beautifyFloat((report.firstOfPath.size + report.middleOfPath.size) / (report.sampling.size / 100), '%')}
-    on your <strong>${beautifyWord(adSource)}<strong> remarketing budget, please contact us and we will advise you with the necessary steps to start saving.
+    on your <strong>${beautifyWord(adSource)}</strong> remarketing budget, please contact us and we will advise you with the necessary steps to start saving.
   `;
   document.getElementById('report-url').value = report.url;
   document.getElementById('report-first-of-path').value = beautifyFloat(report.firstOfPath.value, report.query.currency).replace(/<\/?[^>]+?>/gi, '');
