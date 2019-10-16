@@ -447,7 +447,7 @@ function writeContactSection (report) {
   document.getElementById('report-first-of-path').value = beautifyFloat(report.firstOfPath.value, report.query.currency);
   document.getElementById('report-middle-of-path').value = beautifyFloat(report.middleOfPath.value, report.query.currency);
   document.getElementById('report-last-of-path').value = beautifyFloat(report.lastOfPath.value, report.query.currency);
-  document.getElementById('contact-form').onsubmit = () => (window.location.href = window.location.href);
+  document.getElementById('target-frame').onload = () => (window.location.href = window.location.href);
   // document.getElementById('contact-section').innerHTML = `
   //   If you want to save ${beautifyFloat((report.firstOfPath.size + report.middleOfPath.size) / (report.sampling.size / 100), '%')}
   //   on your ${beautifyWord(adSource)} remarketing budget, please contact us and we will advise you with the necessary steps to start saving.
@@ -555,7 +555,7 @@ function initClient () {
 
   const adBlockerTimer = setTimeout(() => {
     showModal('You are using an ad-blocker which is interfering with the Google Analytics API used by this application. Please disable it and try again.');
-  }, 1000 * 30);
+  }, 1000 * 10);
   showLoader();
   gapi.client.init({
     'clientId': '117859912987-fljbv2m0oqo1qje2prd2mtd6hiipb8s3.apps.googleusercontent.com',
