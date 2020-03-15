@@ -12,7 +12,11 @@ const now = new Date();
 const startDate = query.get('startDate') || `${now.getFullYear() - 1}-${('0' + now.getMonth()).slice(-2)}-${('0' + now.getDate()).slice(-2)}`;
 const endDate = query.get('endDate') || `${now.getFullYear()}-${('0' + now.getMonth()).slice(-2)}-${('0' + now.getDate()).slice(-2)}`;
 const adSource = query.get('adSource') || 'criteo';
-const directChannels = new Set(query.get('directChannels') || ['direct', 'email']);
+const directChannels = new Set(
+  query.has('directChannels')
+   ? query.get('directChannels').split(',')
+   : ['direct', 'email']
+);
 
 clearTabs(1);
 hideLoader();
