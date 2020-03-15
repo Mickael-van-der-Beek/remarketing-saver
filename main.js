@@ -290,7 +290,7 @@ function runReport (viewId, currency, propertyUrl, callback) {
       'include-empty-rows': false
     })
     .then(report => {
-      console.log('REPORTS=', report);
+      window._r = report;
 
       const reportRows = (report.result.rows || []).map(row => {
         row[2].primitiveValue = new Date(
@@ -305,7 +305,7 @@ function runReport (viewId, currency, propertyUrl, callback) {
         return row;
       });
 
-      window.rr = reportRows;
+      window._rr = reportRows;
 
       const firstOfPathRows = reportRows
         .filter(row => (
@@ -329,15 +329,14 @@ function runReport (viewId, currency, propertyUrl, callback) {
       const totalConversions = reportRows
         .reduce((total, row) => total + row[3].primitiveValue, 0);
       const sampleSize = report.result.containsSampledData === true
-        ? report.result.sampleSize
+        ? Number(report.result.sampleSize)
         : totalConversions;
       const sampleSpace = report.result.containsSampledData === true
-        ? report.result.sampleSpace
+        ? Number(report.result.sampleSpace)
         : totalConversions;
       const sampling = {
-        size: sampleSize,
-        space: sampleSpace,
-        rate: sampleSize / sampleSpace
+        size: totalConversions,
+        rate: sampleSpace && (sampleSize / sampleSpace)
       };
 
       const formattedReport = {
